@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Features</title>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="bootstrap-icons/font/bootstrap-icons.css"><!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.11.3/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.11.3/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.11.3/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.11.3/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.11.3/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.11.3/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+
+
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            var scenarioTable = $('.scenario-result-table').DataTable({
+
+                "order": [],
+                "language": {
+                    searchPlaceholder: "Filter",
+                    search: ""
+                }
+            });
+
+            $('.example-table table').DataTable({
+                searching: false,
+                ordering: false,
+                paging: false,
+                info: false
+            });
+
+            $('.example-table-in-scenario table').DataTable({
+                searching: false,
+                ordering: false,
+                paging: false,
+                info: false
+            });
+
+            $('#evidence-table').DataTable(
+                {
+                    searching: false,
+                    ordering: false,
+                    paging: false,
+                    info: false
+                }
+            );
+
+
+            $(".scenario-docs .card-body table").wrap("<div class='table-responsive'></div>");
+
+            $("#requirements-tabs").tabs();
+            $("#test-tabs").tabs();
+
+            var requirementsTree = [{"text":"Authentication","type":"feature","href":"a9904b387807e33794573a3f7faa359d1ae432b006cd5869c6258a2b0174d572.html","nodes":[],"selectable":false,"tags":["\u003ca href\u003d\u0027##beforetable\u0027\u003e\u003ci class\u003d\u0027bi bi-exclamation-triangle-fill error-icon \u0027 title\u003d\u0027ERROR\u0027\u003e\u003c/i\u003e\u003c/a\u003e","\u003cspan class\u003d\u0027feature-count\u0027\u003e6 scenarios\u003c/span\u003e"]}];
+
+            $('#tree').treeview({
+                data: requirementsTree,
+                enableLinks: true,
+                levels: 10,
+                showTags: true,
+                expandIcon: "bi bi-journal-plus",
+                collapseIcon: "bi bi-journal-minus",
+                emptyIcon: "bi bi-journal"
+            });
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $(".scenario-docs > div > p").html(function () {
+                var text = $(this).text().trim().split(" ");
+                var first = text.shift();
+                return (text.length > 0 ? "<strong>" + first + "</strong> " : first) + text.join(" ");
+            });
+        });
+    </script>
+</head>
+
+
+<body class="results-page">
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">CLO Portal Automation2</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="middlecontent">
+    <div id="contenttop">
+        <div class="middlebg">
+            <span class="breadcrumbs">
+            <a href='index.html'>Home</a> > <a href="capabilities.html">Requirements</a>
+
+                > <a href="54761423835289e3b8204c2f0b8d4a2f5a01454242819bddd107e64b20d3d79c.html">01 Self Registration</a>
+
+
+                    > <span class="truncate-40">Authentication</span>
+
+            </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+    <div class="clr"></div>
+
+    <!--/* starts second table*/-->
+
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li >
+            <a href="index.html"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li class="active">
+            <a href="#"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 05-01-2022 13:19</span>
+    <br style="clear:left"/>
+</div>
+
+    <div class="clr"></div>
+
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="table">
+            <div class=row">
+                <div class="col-sm-12">
+                    <div>
+                        <div clas="table">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                        <span>
+                                            <h2><i class="bi bi-book"></i> Feature:  Authentication</h2>
+                                        </span>
+                                    </div>
+                                        <div class="col-sm-4">
+                                        <span class="feature-tags">
+                                                <p class="tag">
+                                                    <span class="badge tag-badge" style="background:default;">
+                                                        <i class="bi bi-tag-fill"></i>&nbsp;<a class="tagLink"
+                                                                                          style="background:default;"
+                                                                                          href="652e53fc698296c9cabe73be5c613900c1369b5b92f57fad30f923dd97eb5a96.html">Test Run
+                                                        (tag)</a>
+                                                    </span>
+                                                </p>
+                                                <p class="tag">
+                                                    <span class="badge tag-badge" style="background:default;">
+                                                        <i class="bi bi-tag-fill"></i>&nbsp;<a class="tagLink"
+                                                                                          style="background:default;"
+                                                                                          href="6c5512236937b92cd7a296b24edb966c2bd94be46b8910f8b129a42d6150eb25.html">1 To 10 Seconds
+                                                        (Duration)</a>
+                                                    </span>
+                                                </p>
+                                        </span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="requirementNarrativeTitle">
+                                As a prospective SME Loan Customer<br />
+I would like to login with valid mobile number<br />
+So that i can get access to SME Portal for my loan application
+                            </div>
+
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <!-- Requirements result tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#specs"><i class="bi bi-journal-text"></i> Specifications</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#results"><i class="bi bi-speedometer"></i> Test Results</a>
+                            </li>
+                        </ul>
+
+                        <!-- Specifications and Results tabs -->
+                        <div class="card border">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div id="specs" class="tab-pane fade in active">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+
+                                                    <!--- TOC --->
+                                                    <div id="toc">
+                                                        <h3>Overview</h3>
+                                                        <table class="table" id="toc-table">
+                                                                        <tr>
+                                                                            <td style="width:95%;" class="toc-title">
+                                                                                <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#c419dcf85edcc8c022308caafa51794ed1d8322fa4273a2d839668cb3ca22b20"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Portal Landing Page
+                                                                                    </a>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="width:5%;">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td class="icons-bar">
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="eb35ee884edb26fafba86a54f37e655fcdc20b532737e0d4be192bb80d279a79.html"
+                                                                                               title="View test results">
+                                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                                </a>
+
+
+                                                                                                <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                                   href="eb35ee884edb26fafba86a54f37e655fcdc20b532737e0d4be192bb80d279a79.html"
+                                                                                                   title="View test results">
+                                                                                                    <i class="bi bi-eyeglasses"></i>
+                                                                                                </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="width:95%;" class="toc-title">
+                                                                                <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#5845ae55876b4ddebb593ad31287ecf866fa83419aabd9df1b090c6426b9f2f8"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: More Advertisement Details
+                                                                                    </a>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="width:5%;">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td class="icons-bar">
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="22b7bdc75354412b32abf63dfa5273c3d9ed53964b0b4de2fc24e6679c40175b.html"
+                                                                                               title="View test results">
+                                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                                </a>
+
+
+                                                                                                <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                                   href="22b7bdc75354412b32abf63dfa5273c3d9ed53964b0b4de2fc24e6679c40175b.html"
+                                                                                                   title="View test results">
+                                                                                                    <i class="bi bi-eyeglasses"></i>
+                                                                                                </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="width:95%;" class="toc-title">
+                                                                                <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#62c6c9505f08ae30fc7f05d26184c26856dfdda6d7276a6610937e29c8da3fbd"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario Outline: Invalid Mobile Number
+                                                                                    </a>
+                                                                                        (4 examples)
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="width:5%;">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td class="icons-bar">
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html"
+                                                                                               title="View test results">
+                                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                                </a>
+
+
+                                                                                                <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                                   href="83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html"
+                                                                                                   title="View test results">
+                                                                                                    <i class="bi bi-eyeglasses"></i>
+                                                                                                </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="width:95%;" class="toc-title">
+                                                                                <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#aa18c79dfca491a2386a64d2a61012f7246d0579a4432dd3a7a326cefaa46582"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Display Terms & Condition and Privacy Policy
+                                                                                    </a>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="width:5%;">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td class="icons-bar">
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="65eff296dc6ccb3671be0cd9dcaef9202243f1739ea5b10ddbb38cd4603dba8b.html"
+                                                                                               title="View test results">
+                                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                                </a>
+
+
+                                                                                                <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                                   href="65eff296dc6ccb3671be0cd9dcaef9202243f1739ea5b10ddbb38cd4603dba8b.html"
+                                                                                                   title="View test results">
+                                                                                                    <i class="bi bi-eyeglasses"></i>
+                                                                                                </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="width:95%;" class="toc-title">
+                                                                                <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#6c0e91198e5ec61b9aebff00521a6bf620efbf32e3addb9e2a2bb7dd33443004"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Accept T&C and Privacy Policy
+                                                                                    </a>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="width:5%;">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td class="icons-bar">
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="d5713e72f50d03ff1f456d50b184ae798e7752fce9ddbc422f7f64520f0f53f7.html"
+                                                                                               title="View test results">
+                                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                                </a>
+
+
+                                                                                                <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                                   href="d5713e72f50d03ff1f456d50b184ae798e7752fce9ddbc422f7f64520f0f53f7.html"
+                                                                                                   title="View test results">
+                                                                                                    <i class="bi bi-eyeglasses"></i>
+                                                                                                </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="width:95%;" class="toc-title">
+                                                                                <span class="orphan-scenario-toc-entry">
+                                                                                    <a href="#67b181342bf35113fb4e9aa7b0028e62e95bd19f5caead24207ea5532fb8d949"
+                                                                                       title="View scenario details">
+                                                                                        <i class="bi bi-chat-dots"></i> Scenario: Re-enter Mobile Number
+                                                                                    </a>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td style="width:5%;">
+                                                                                <table>
+                                                                                    <tr>
+                                                                                        <td class="icons-bar">
+                                                                                            <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                               href="0ecf72042dba9825f15e2cfe038e67b33da33250f362b68db88b437b948efcfc.html"
+                                                                                               title="View test results">
+                                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                                                                </a>
+
+
+                                                                                                <a style="margin-left:0.5em;padding-right: 1.5em;"
+                                                                                                   href="0ecf72042dba9825f15e2cfe038e67b33da33250f362b68db88b437b948efcfc.html"
+                                                                                                   title="View test results">
+                                                                                                    <i class="bi bi-eyeglasses"></i>
+                                                                                                </a>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                        </table>
+                                                    </div>
+                                                    <!--- END OF TOC --->
+
+                                                    <h3>Scenarios</h3>
+
+                                                        <a name="cfb357c4-f993-4def-8cae-6b08b68b6871"></a>
+
+
+                                                            <div class="scenario-docs card" id="c419dcf85edcc8c022308caafa51794ed1d8322fa4273a2d839668cb3ca22b20">
+                                                                <div class="scenario-docs card-header error"
+                                                                     style="min-height:1.5em;">
+                                                                    <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="eb35ee884edb26fafba86a54f37e655fcdc20b532737e0d4be192bb80d279a79.html"
+                                                                   title="View test results">Scenario: Portal Landing Page</a>
+                                                            </span>
+                                                                        <span class="scenario-result-icon">
+                                                                
+
+                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scenario-docs card-body">
+                                                                        <p>Given The Customer want to apply for a loan</p>
+                                                                        <p>When He access the Landing Page of Portal</p>
+                                                                        <p>Then He should be able to view HDFC Advertisemnt Banner</p>
+                                                                        <p>And Able to view detailed advertisement on clicking 'read more' option</p>
+                                                                        <p>And Input for Mobile Number prefixed with '+91'</p>
+                                                                        <p>And Option for 'Get OTP'</p>
+                                                                        <p>And Message indicating  By entering mobile number, you agree to T &amp; C and privacy policy</p>
+                                                                    <div class="examples">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="scenario-docs card" id="5845ae55876b4ddebb593ad31287ecf866fa83419aabd9df1b090c6426b9f2f8">
+                                                                <div class="scenario-docs card-header error"
+                                                                     style="min-height:1.5em;">
+                                                                    <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="22b7bdc75354412b32abf63dfa5273c3d9ed53964b0b4de2fc24e6679c40175b.html"
+                                                                   title="View test results">Scenario: More Advertisement Details</a>
+                                                            </span>
+                                                                        <span class="scenario-result-icon">
+                                                                
+
+                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scenario-docs card-body">
+                                                                        <p>Given Customer is on Portal Landing Page</p>
+                                                                        <p>When he clicks on 'read more' link on adverstisement banner</p>
+                                                                        <p>Then he should see new page with more details of advertisement</p>
+                                                                    <div class="examples">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="scenario-docs card" id="62c6c9505f08ae30fc7f05d26184c26856dfdda6d7276a6610937e29c8da3fbd">
+                                                                <div class="scenario-docs card-header error"
+                                                                     style="min-height:1.5em;">
+                                                                    <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html"
+                                                                   title="View test results">Scenario Outline: Invalid Mobile Number</a>
+                                                            </span>
+                                                                        <span class="scenario-result-icon">
+                                                                
+
+                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scenario-docs card-body">
+                                                                        <p>Given Customer is on Portal Landing Page</p>
+                                                                        <p>When He provides a Invalid '{mobile}' Number</p>
+                                                                        <p>Then Customer should be provided with follwing error warning '{error}'</p>
+                                                                    <div class="examples">
+                                                                            <p><p>Examples:</p>
+<blockquote>
+</blockquote>
+<div class='example-table-in-scenario'><table>
+<thead>
+<tr><th>mobile</th><th>error</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>01234</td><td>Invalid mobile number</td><td><a href='83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html#beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a></td></tr>
+<tr><td>01123112345</td><td>Invalid mobile number</td><td><a href='83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html#beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a></td></tr>
+<tr><td>abcde12345</td><td>Invalid mobile number</td><td><a href='83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html#beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a></td></tr>
+<tr><td></td><td>Please provide Mobile Number</td><td><a href='83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html#beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a></td></tr>
+</tbody>
+</table></div>
+</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="scenario-docs card" id="aa18c79dfca491a2386a64d2a61012f7246d0579a4432dd3a7a326cefaa46582">
+                                                                <div class="scenario-docs card-header error"
+                                                                     style="min-height:1.5em;">
+                                                                    <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="65eff296dc6ccb3671be0cd9dcaef9202243f1739ea5b10ddbb38cd4603dba8b.html"
+                                                                   title="View test results">Scenario: Display Terms & Condition and Privacy Policy</a>
+                                                            </span>
+                                                                        <span class="scenario-result-icon">
+                                                                
+
+                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scenario-docs card-body">
+                                                                        <p>Given Customer is on Portal Landing Page</p>
+                                                                        <p>And He has seen the message for T &amp; C and Privacy Policy</p>
+                                                                        <p>When He provides a valid Mobile Number</p>
+                                                                        <p>And Tries to Get OTP</p>
+                                                                        <p>Then First Terms and Conditions will be displayed in details</p>
+                                                                        <p>And followed by Privacy Policy in details on subsequent page.</p>
+                                                                    <div class="examples">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="scenario-docs card" id="6c0e91198e5ec61b9aebff00521a6bf620efbf32e3addb9e2a2bb7dd33443004">
+                                                                <div class="scenario-docs card-header error"
+                                                                     style="min-height:1.5em;">
+                                                                    <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="d5713e72f50d03ff1f456d50b184ae798e7752fce9ddbc422f7f64520f0f53f7.html"
+                                                                   title="View test results">Scenario: Accept T&C and Privacy Policy</a>
+                                                            </span>
+                                                                        <span class="scenario-result-icon">
+                                                                
+
+                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scenario-docs card-body">
+                                                                        <p>Given Customer has provided valid mobile number</p>
+                                                                        <p>And has viewed and accepted T&amp;C</p>
+                                                                        <p>And has viewed and accepted Privacy Policy</p>
+                                                                        <p>Then OTP will be triggered</p>
+                                                                        <p>And Message will be displayed indicating last 4 digits of mobile entered</p>
+                                                                        <p>And OTP Prompt with 6 digits will be displayed</p>
+                                                                        <p>And Option to Resend OTP will be displayed in non editable mode</p>
+                                                                        <p>And Decremental Time counter for Resend OTP from 30 seconds will be displayed</p>
+                                                                    <div class="examples">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="scenario-docs card" id="67b181342bf35113fb4e9aa7b0028e62e95bd19f5caead24207ea5532fb8d949">
+                                                                <div class="scenario-docs card-header error"
+                                                                     style="min-height:1.5em;">
+                                                                    <div>
+                                                            <span class="scenario-heading">
+                                                                <a href="0ecf72042dba9825f15e2cfe038e67b33da33250f362b68db88b437b948efcfc.html"
+                                                                   title="View test results">Scenario: Re-enter Mobile Number</a>
+                                                            </span>
+                                                                        <span class="scenario-result-icon">
+                                                                
+
+                                                                                <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a>
+                                                            </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="scenario-docs card-body">
+                                                                        <p>Given the Customer has entered a incorrect mobile number</p>
+                                                                        <p>And He is on OTP prompt</p>
+                                                                        <p>Then He should be provided with option to change his number</p>
+                                                                        <p>And He should be redirected back to Mobile Entry Landing Page</p>
+                                                                    <div class="examples">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="results" class="tab-pane fade">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <!-- PIE CHART -->
+                                                    <div class="chart-container" style="position: relative; width:30vw">
+                                                        <canvas id="resultChart" width="300" height="300"></canvas>
+                                                    </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h4><i class="bi bi-check-square"></i> Test Outcomes</h4>
+                                                <!-- Severity bar chart -->
+                                                <div class="chart-container" style="position: relative; width:30vw">
+                                                    <canvas id="severityChart" width="300" height="300"></canvas>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <h4><i class="bi bi-graph-up"></i> Test Performance</h4>
+
+                                                <!-- Duration bar chart -->
+                                                <div class="chart-container" style="position: relative; width:30vw">
+                                                    <canvas id="durationChart" width="300" height="300"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3><i class="bi bi-gear"></i> Automated Tests</h3>
+
+                                                    <table class="scenario-result-table table"
+                                                           id="scenario-results">
+                                                        <thead>
+                                                        <tr>
+                                                            <th class="test-name-column">Scenario</th>
+                                                            <th>Steps</th>
+                                                            <th>Started</th>
+                                                            <th>Duration</th>
+                                                            <th>Result</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="scenario-result ERROR">
+                                                                <td>
+                                                                        <a href="eb35ee884edb26fafba86a54f37e655fcdc20b532737e0d4be192bb80d279a79.html">Portal Landing Page</a>
+                                                                </td>
+                                                                <td>7</td>
+                                                                <td>13:19:09</td>
+                                                                <td>12s 191ms</td>
+                                                                <td>
+                                                                        <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                                            style="display:none">ERROR</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="scenario-result ERROR">
+                                                                <td>
+                                                                        <a href="22b7bdc75354412b32abf63dfa5273c3d9ed53964b0b4de2fc24e6679c40175b.html">More Advertisement Details</a>
+                                                                </td>
+                                                                <td>3</td>
+                                                                <td>13:19:23</td>
+                                                                <td>7s 450ms</td>
+                                                                <td>
+                                                                        <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                                            style="display:none">ERROR</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="scenario-result ERROR">
+                                                                <td>
+                                                                        <a href="83b5966446543ab678c624f6e567236da5289883a46ff2e02f99b0f748c419ff.html">Invalid Mobile Number</a>
+                                                                        (4 examples)
+                                                                </td>
+                                                                <td>3</td>
+                                                                <td>13:19:31</td>
+                                                                <td>27s 246ms</td>
+                                                                <td>
+                                                                        <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                                            style="display:none">ERROR</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="scenario-result ERROR">
+                                                                <td>
+                                                                        <a href="65eff296dc6ccb3671be0cd9dcaef9202243f1739ea5b10ddbb38cd4603dba8b.html">Display Terms & Condition and Privacy Policy</a>
+                                                                </td>
+                                                                <td>6</td>
+                                                                <td>13:19:59</td>
+                                                                <td>7s 383ms</td>
+                                                                <td>
+                                                                        <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                                            style="display:none">ERROR</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="scenario-result ERROR">
+                                                                <td>
+                                                                        <a href="d5713e72f50d03ff1f456d50b184ae798e7752fce9ddbc422f7f64520f0f53f7.html">Accept T&C and Privacy Policy</a>
+                                                                </td>
+                                                                <td>8</td>
+                                                                <td>13:20:07</td>
+                                                                <td>5s 215ms</td>
+                                                                <td>
+                                                                        <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                                            style="display:none">ERROR</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="scenario-result ERROR">
+                                                                <td>
+                                                                        <a href="0ecf72042dba9825f15e2cfe038e67b33da33250f362b68db88b437b948efcfc.html">Re-enter Mobile Number</a>
+                                                                </td>
+                                                                <td>4</td>
+                                                                <td>13:20:13</td>
+                                                                <td>6s 954ms</td>
+                                                                <td>
+                                                                        <a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                                            style="display:none">ERROR</span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3><i class="bi bi-hand-index-thumb"></i> Manual Tests</h3>
+
+                                                    No manual tests were recorded
+
+                                            </div>
+                                        </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <h3><i class="bi bi-download"></i> Evidence</h3>
+                                                    <table id="evidence-table" class="table table-bordered">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Scenario</th>
+                                                            <th>Title</th>
+                                                            <th>Details</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Portal Landing Page</td>
+                                                                <td>INFO</td>
+                                                                <td><a role='button' class='btn btn-success btn-sm' href='eb35ee884edb26fafba86a54f37e655fcdc20b532737e0d4be192bb80d279a79.html#report-data-eb6580de-b4fe-4f51-97c9-f2cfff1af999'><i class="fas fa-external-link-alt"></i>&nbsp;Details</a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Tags</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                    <a href="652e53fc698296c9cabe73be5c613900c1369b5b92f57fad30f923dd97eb5a96.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Test Run&nbsp;&nbsp;&nbsp;9
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="version">Serenity BDD version 3.1.5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chart data -->
+    <!-- PIE CHART -->
+    <script>
+
+        // The results pie chart
+        const outcomeChartCtx = document.getElementById('resultChart');
+
+        // Options define for display value on top of bars
+        const outcomeDetailsReports = [
+            { title: 'Passing Scenarios', link: "8389f846fdba1ce8e7fe0b877143f718fd6499fbff38a22bbd8a23833afc0342.html" },
+            { title: 'Pending Scenarios', link: "9bfa0592b73be6d6389d88d698e278d12565df56c2566e9f859f17b7cc1a7360.html" },
+            { title: 'Ignored Scenarios', link: "55ab788bc674c5622f61f39fe9d5573cd5b9379950ae3ff9794562a9fcc678ac.html" },
+            { title: 'Skipped Scenarios', link: "983c60838ea183db9771b2964964505f3d20453c02fb6d81acc63582d5196de0.html" },
+            { title: 'Aborted Scenarios',  link: "3218f2b9fef26edd458b7a35fce8bc9b4f935b0c97e73345788afaa1929101c8.html"},
+            { title: 'Failed Scenarios', link: "93f953df3e6132344fc86386ab5369c77de7a0e07a451c9bb8e81939f559d8bb.html"  },
+            { title: 'Broken Scenarios', link: "c4ea91023fe4275033e6e5ec870a63bf07a855c95e1c355f14c8ae060572f6b5.html"    },
+            { title: 'Compromised Scenarios',  link: "fe93f471c7d449f3d663c14a771ea0f24f5623d7f6a85334c01a407e537ab33c.html" },
+        ]
+        const outcomeData = {
+            labels: ['Passing', 'Pending', 'Ignored', 'Skipped', 'Aborted', 'Failed', 'Broken', 'Compromised'],
+            datasets: [{
+                label: 'Test Results',
+                fill: false,
+                data: [0,0,0,0,0,0,9,0],
+                backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)'],
+                borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)'],
+                borderWidth: 1,
+            }]
+        }
+        const outcomeOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        if (percentage === '0%') {
+                            return '';
+                        } else {
+                            return percentage;
+                        }
+                    },
+                },
+            }
+        }
+
+        const outcomeChart = new Chart(outcomeChartCtx, {
+            type: 'doughnut',
+            data: outcomeData,
+            options: outcomeOptions,
+            plugins: [
+                {
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 200).toFixed(1);
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+
+                        var text = " "
+                        textX = 10 + Math.round((width - ctx.measureText(text).width) / 2);
+                        textY = (height / 2) - 40;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+        });
+
+        function clickHandler(click) {
+            const points = outcomeChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(outcomeDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        outcomeChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END PIE CHART -->
+
+    <!-- SUMMARY BAR CHART -->
+    <script>
+
+        // The Severity bar chart
+        const severityChartCtx = document.getElementById('severityChart');
+
+        // Options define for display value on top of bars
+
+        const severityDetailsReports = [
+            { title: 'Passing Scenarios', link: "8389f846fdba1ce8e7fe0b877143f718fd6499fbff38a22bbd8a23833afc0342.html" },
+            { title: 'Pending Scenarios', link: "9bfa0592b73be6d6389d88d698e278d12565df56c2566e9f859f17b7cc1a7360.html" },
+            { title: 'Ignored Scenarios', link: "55ab788bc674c5622f61f39fe9d5573cd5b9379950ae3ff9794562a9fcc678ac.html" },
+            { title: 'Skipped Scenarios', link: "983c60838ea183db9771b2964964505f3d20453c02fb6d81acc63582d5196de0.html" },
+            { title: 'Aborted Scenarios',  link: "3218f2b9fef26edd458b7a35fce8bc9b4f935b0c97e73345788afaa1929101c8.html"},
+            { title: 'Failed Scenarios', link: "93f953df3e6132344fc86386ab5369c77de7a0e07a451c9bb8e81939f559d8bb.html"  },
+            { title: 'Broken Scenarios', link: "c4ea91023fe4275033e6e5ec870a63bf07a855c95e1c355f14c8ae060572f6b5.html"    },
+            { title: 'Compromised Scenarios',  link: "fe93f471c7d449f3d663c14a771ea0f24f5623d7f6a85334c01a407e537ab33c.html" },
+        ]
+        const severityData = {
+            labels: ['Passing', 'Pending', 'Ignored', 'Skipped', 'Aborted', 'Failed', 'Broken', 'Compromised'],
+            datasets: [
+                {
+                    label: 'Automated',
+                    data: [0,0,0,0,0,0,9,0],
+                    backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Manual',
+                    data: [0,0,0,0,0,0,0,0],
+                    backgroundColor: ['rgba(153,204,51,0.25)','rgba(165, 199, 238, 0.25)','rgba(168, 168, 168, 0.25)','rgba(238, 224, 152, 0.375)','rgba(255, 153, 102, 0.25)','rgba(255, 22, 49, 0.25)','rgba(255, 97, 8, 0.25)','rgba(255, 104, 255, 0.25)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)'],
+                    borderWidth: 1
+                },
+
+            ]
+        }
+        const severityOptions = {
+            responsive: true,
+            skipNull: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value === 0) {
+                            return '';
+                        } else {
+                            return value;
+                        }
+                    },
+                }
+            }
+        }
+        const severityChart = new Chart(severityChartCtx, {
+            type: 'bar',
+            data: severityData,
+            options: severityOptions
+        });
+
+        function clickHandler(click) {
+            const points = severityChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(severityDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        severityChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END SUMMARY CHART -->
+
+    <!-- DURATION CHART -->
+    <script>
+
+        // Options define for display value on top of bars
+        const durationDetailsReports = [
+                {title: "Under 1 second", link: "bf7801cd10d7f5e7f0d56176681d0bf4fc5e3f5b067942f55066baea52c38c5d.html"},
+                {title: "1 to 10 seconds", link: "482ddc73d13ccced68d112f602d0218e1a45b5bfc7152874d5de3afa273b38ac.html"},
+                {title: "10 to 30 seconds", link: "209c014a4e6a4d8256206472efe6d36b68b2e99e9025089b6f18bd81ab54f283.html"},
+                {title: "30 to 60 seconds", link: "9de7a2b00139e3de1915db8cc37ec411411a013ba88181b4f3a6d70f6600410b.html"},
+                {title: "1 to 2 minutes", link: "9f380b45723ed2091ad53fe26f98e17c503fc62a30777c441254af68eeecfe67.html"},
+                {title: "2 to 5 minutes", link: "716ba9895bff955417f26cdb9a44ab24fe2cdbb79600605707bc1af73d861d1e.html"},
+                {title: "5 to 10 minutes", link: "10c01a21b4772ad8a5a922ee98c113fc9269c67c971bf813058d2dd9b2853c9a.html"},
+                {title: "10 minutes or over", link: "d2b52839a61185b26f921d0694a8d8a8af51a960cf099a3949e9ac20474173fd.html"},
+        ]
+        // The Severity bar chart
+        const durationChartCtx = document.getElementById('durationChart');
+
+        // Options define for display value on top of bars
+
+        const durationData = {
+            labels: ['Under 1 second','1 to 10 seconds','10 to 30 seconds','30 to 60 seconds','1 to 2 minutes','2 to 5 minutes','5 to 10 minutes','10 minutes or over'],
+            datasets: [{
+                label: 'Number of tests per duration',
+                fill: false,
+                data: ['0','4','5','0','0','0','0','0'],
+                backgroundColor: 'rgba(83, 146, 255,0.5)',
+                borderColor: 'rgba(83, 146, 255, 1)',
+            }]
+        }
+        const durationOptions = {
+            responsive: true,
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value > 0) {
+                            return value;
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+                tooltip: {
+                    enabled: true,
+                    usePointStyle: true,
+                    callbacks: {
+                        label: (data) => {
+                            return data.parsed.y + ' tests'
+                        }
+                    },
+                },
+            },
+        }
+
+        const durationChart = new Chart(durationChartCtx, {
+            type: 'bar',
+            data: durationData,
+            options: durationOptions
+        });
+
+        function durationClickHandler(click) {
+            const points = durationChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(durationDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+
+        durationChartCtx.onclick = durationClickHandler;
+    </script>
+    <!-- END DURATION CHART -->
+</body>
+</html>

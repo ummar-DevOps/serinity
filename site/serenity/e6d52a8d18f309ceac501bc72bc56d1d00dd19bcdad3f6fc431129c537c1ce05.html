@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Serenity Reports</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="bootstrap-icons/font/bootstrap-icons.css"><!-- JQuery -->
+<script type="text/javascript" src="scripts/jquery-1.11.1.min.js"></script><!-- Required Stylesheets -->
+<link href="bootstrap-treeview/dist/bootstrap-treeview.min.css" rel="stylesheet">
+
+<!-- Required Javascript -->
+<script src="bootstrap-treeview/dist/bootstrap-treeview.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.11.3/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.11.3/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.11.3/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+<link rel="stylesheet" href="css/core.css"/>
+<link rel="stylesheet" href="css/link.css"/>
+<link type="text/css" media="screen" href="css/screen.css" rel="Stylesheet"/>
+<!--CHART.JS-->
+<script src="chartjs/chart.js"></script>
+<script src="chartjs/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="chartjs/patternomaly.min.js"></script>
+<script>
+    // Register the plugin to all charts:
+    Chart.register(ChartDataLabels);
+</script>
+<!-- JQuery-UI -->
+<link type="text/css" href="jqueryui/1.11.2-start/jquery-ui.min.css" rel="Stylesheet" />
+<script type="text/javascript" src="jqueryui/1.11.2-start/jquery-ui.min.js"></script><!-- DataTables -->
+<link type="text/css" href="datatables/1.11.3/datatables.min.css" rel="stylesheet" />
+<script type="text/javascript" src="datatables/1.11.3/datatables.min.js"></script>
+<script type="text/javascript" src="datatables/1.11.3/time-elapsed-dhms.js"></script>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<script>
+    jQuery.fn.dataTable.ext.type.order['time-elapsed-dhms-pre'] = function(data) {
+
+        var matches = data.match(/^(\d+(?:\.\d+)?)\s*([a-z]+)/i);
+        var multipliers = {
+            ms: 1,
+            s: 1000,
+            m: 60000,
+            h: 3600000,
+            d: 86400000
+        };
+
+        if (matches) {
+            var multiplier = multipliers[matches[2].toLowerCase()];
+            return parseFloat(matches[1]) * multiplier;
+        } else {
+            return -1;
+        };
+    };
+</script>
+
+
+
+    <script class="code" type="text/javascript">$(document).ready(function () {
+
+
+        $('.scenario-result-table').DataTable({
+
+            "order": [[0, "asc",], [3, "asc",]],
+            "pageLength": 25,
+            "language": {
+                searchPlaceholder: "Filter",
+                search: ""
+            }
+        });
+
+        // Results table
+        $('#test-results-table').DataTable({
+            "order": [[0, "asc",], [3, "asc",]],
+            "pageLength": 100,
+            "lengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
+        });
+
+    })
+    ;
+    </script>
+</head>
+
+<body class="results-page">
+<div id="topheader">
+    <div id="topbanner">
+        <div id="logo"><a href="index.html"><img src="images/serenity-logo.png" border="0"/></a></div>
+        <div id="projectname-banner" style="float:right">
+            <span class="projectname">
+                <span class="projecttitle">CLO Portal Automation2</span>
+                <span class="projectsubtitle"></span>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="middlecontent">
+
+
+    <div id="contenttop">
+        <div class="middlebg">
+        <span class="breadcrumbs"><a href="index.html">Home</a>
+                > Feature 
+                > <span
+                    class="truncate-60">01 Self Registration/Resigtration With PAN Number &gt; Duration 1 To 10 Seconds</span>
+        </span>
+        </div>
+        <div class="rightbg"></div>
+    </div>
+
+    <div class="clr"></div>
+    <!--/* starts second table*/-->
+<div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#"><i class="bi bi-journal-check"></i> Overall Test Results</a>
+        </li>
+        <li >
+            <a href="capabilities.html"><i class="bi bi-journal-text"></i> Requirements</a>
+        </li>
+        <li >
+            <a href="7ea0a5e2d679b9deeda9910ae4a9bcd3a281e0d908303a9e16e486103e98880c.html"><i class="bi bi-chat-text"></i> Capabilities</a>
+        </li>
+        <li >
+            <a href="576946480b52ad056d6f5bddf874399c83582ecf90963cc074a14c70580e7d9f.html"><i class="bi bi-chat-text"></i> Features</a>
+        </li>
+    </ul>
+    <span class="date-and-time"><a href="build-info.html"><i class="bi bi-info-circle"></i></a> Report generated 05-01-2022 13:20:46</span>
+    <br style="clear:left"/>
+</div>
+    <div class="clr"></div>
+    <div id="beforetable"></div>
+    <div id="results-dashboard">
+        <div class="middlb">
+            <div class="table">
+
+                <h2><i class='bi bi-tags'></i> Feature: 01 Self Registration/Resigtration With PAN Number > Duration 1 To 10 Seconds</h2>
+                <table class='overview'>
+                    <tr>
+                        <td width="375px" valign="top">
+                            <div class="test-count-summary">
+                                <div>
+
+                                1 test
+                                    across 1 scenario
+
+                                     |
+                                        <a href="e4d6a000b1e5a0d81e9711542b84d8f46f895948e46492758ce0a7d53868f834.csv" title="Download CSV"> <i class="bi bi-cloud-arrow-down" title="Download CSV"></i></a>
+
+                                    <p class="report-info"><i class="bi bi-info-circle"></i> Note that results include
+                                        data-driven scenarios containing test ,
+                                        which may also contain results other than test .</p>
+
+
+
+                                </div>
+                            </div>
+
+                            <div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a data-toggle="tab" href="#summary"><i class="bi bi-house-door"></i> Summary</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tests"><i class="bi bi-speedometer"></i> Test
+                                            Results</a>
+                                    </li>
+                                </ul>
+
+                                <div class="card border">
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <div id="summary" class="tab-pane fade in active">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div>
+                                                            <h3><i class="bi bi-speedometer2"></i> Key Statistics</h3>
+                                                            <div>
+                                                                <table class="table table-striped table-hover">
+                                                                    <tbody>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-flag-fill"></i> Tests Started
+                                                                        </td>
+                                                                        <td>Jan 05, 2022 13:20:20</td>
+                                                                    </tr>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-stop-circle"></i> Tests Finished
+                                                                        </td>
+                                                                        <td>Jan 05, 2022 13:20:25</td>
+                                                                    </tr>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-stopwatch"></i> Total Duration
+                                                                        </td>
+                                                                        <td>4s</td>
+                                                                    </tr>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-trophy"></i> Fastest Test
+                                                                        </td>
+                                                                        <td>4s</td>
+                                                                    </tr>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-skip-start"></i> Slowest Test
+                                                                        </td>
+                                                                        <td>4s</td>
+                                                                    </tr>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-stopwatch"></i> Average Execution Time
+                                                                        </td>
+                                                                        <td>4s</td>
+                                                                    </tr>
+                                                                    <tr scope="row">
+                                                                        <td>
+                                                                            <i class="bi bi-stopwatch-fill"></i> Total Execution Time
+                                                                        </td>
+                                                                        <td>4s</td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <h4><i class="bi bi-check-square"></i> Test Outcomes</h4>
+                                                        <!-- Severity bar chart -->
+                                                        <div class="chart-container" style="position: relative; width:30vw">
+                                                            <canvas id="severityChart" width="300" height="300"></canvas>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-4">
+                                                        <h4><i class="bi bi-graph-up"></i> Test Performance</h4>
+
+                                                        <!-- Duration bar chart -->
+                                                        <div class="chart-container" style="position: relative; width:30vw">
+                                                            <canvas id="durationChart" width="300" height="300"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <!-- High level coverage bar chart -->
+                                                            <div class="chart-container" style="position: relative; width:60vw">
+                                                                <h3><i class="bi bi-reception-3"></i> Functional Coverage Overview</h3>
+                                                                <h4>Features</h4>
+                                                                <canvas id="coverageChart"></canvas>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <h3>Tags</h3>
+
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <div>
+                                                                                <a href="652e53fc698296c9cabe73be5c613900c1369b5b92f57fad30f923dd97eb5a96.html">
+                                                                                    <span class="badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                                                                        <i class="bi bi-tag"></i> Test Run&nbsp;&nbsp;&nbsp;1
+                                                                                    </span>
+                                                                                </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div id="tests" class="tab-pane fade in">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h3><i class="bi bi-gear"></i> Automated Tests</h3>
+
+                                            <table class="scenario-result-table table" id="scenario-results">
+                                                <thead>
+                                                <tr>
+                                                    <th>feature</th>
+                                                    <th class="test-name-column">Scenario</th>
+                                                    <th>Steps</th>
+                                                    <th>Started</th>
+                                                    <th>Duration</th>
+                                                    <th>Result</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr class="scenario-result ERROR">
+                                                    <td>
+                                                            <a href="a33102df209118f1903c8e3457c88c0c34757876412b2541c471a5973b2130c0.html">Resigtration with PAN Number</a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="a72d1fb03447afade89fbe7a258eb629fd7070a4af9e733515f5573809872718.html">Verify valid PAN number</a>
+                                                    </td>
+                                                    <td>7</td>
+                                                    <td>13:20:20</td>
+                                                    <td>4s 815ms</td>
+                                                    <td><a href='##beforetable'><i class='bi bi-exclamation-triangle-fill error-icon ' title='ERROR'></i></a> <span
+                                                            style="display:none">ERROR</span></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <h3><i class="bi bi-hand-index-thumb"></i> Manual Tests</h3>
+
+                                                No manual tests were recorded
+
+                                                    </div>
+                                                </div>
+                                            </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Tags</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                    <a href="652e53fc698296c9cabe73be5c613900c1369b5b92f57fad30f923dd97eb5a96.html">
+                                    <span class="tag-badge badge" style="background-color:#fe6c2d; margin:1em;padding:4px;">
+                                        <i class="bi bi-tag-fill"></i> Test Run&nbsp;&nbsp;&nbsp;1
+                                    </span>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="beforefooter"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="version">Serenity BDD version 3.1.5</span>
+        </div>
+    </div>
+</div>
+
+<!-- Chart data -->
+    <!-- PIE CHART -->
+    <script>
+
+        // The results pie chart
+        const outcomeChartCtx = document.getElementById('resultChart');
+
+        // Options define for display value on top of bars
+        const outcomeDetailsReports = [
+            { title: 'Passing Scenarios', link: "6053af5429c842969907663529c59d2366c8f0fc4325085b1c1d97ebcc5da73c.html" },
+            { title: 'Pending Scenarios', link: "d807d9ae8e9e70288c75cb74e9314e45897cce2eca8398c581abe0adf1d0fe84.html" },
+            { title: 'Ignored Scenarios', link: "ce5dc076c525118a026103068c481adec992f8da65309b5219d3af90566be515.html" },
+            { title: 'Skipped Scenarios', link: "159772cf199660d4e98acdbe51ec937ce655c824c320c064ae09b7200216edf1.html" },
+            { title: 'Aborted Scenarios',  link: "9c68711f8ed90a2f4fa96e0cd9fb5c814d0c4bc304179feeefd1e6cb26a43779.html"},
+            { title: 'Failed Scenarios', link: "ac22d0faa24fdd153dac6aee95c73df5e5cd756133875133d9aa19fce1c3ff01.html"  },
+            { title: 'Broken Scenarios', link: "32f1d08a29fa6b36d3567ab416443f28deab92e161c9d184db5bf473d07a7c12.html"    },
+            { title: 'Compromised Scenarios',  link: "34f8548b6bf0621b414da31c928ae3e11945dd40f234cfe29ac58717d3d3c1d0.html" },
+        ]
+        const outcomeData = {
+            labels: ['Passing', 'Pending', 'Ignored', 'Skipped', 'Aborted', 'Failed', 'Broken', 'Compromised'],
+            datasets: [{
+                label: 'Test Results',
+                fill: false,
+                data: [0,0,0,0,0,0,1,0],
+                backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)'],
+                borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)'],
+                borderWidth: 1,
+            }]
+        }
+        const outcomeOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(0) + "%";
+                        if (percentage === '0%') {
+                            return '';
+                        } else {
+                            return percentage;
+                        }
+                    },
+                },
+            }
+        }
+
+        const outcomeChart = new Chart(outcomeChartCtx, {
+            type: 'doughnut',
+            data: outcomeData,
+            options: outcomeOptions,
+            plugins: [
+                {
+                    id: 'text',
+                    beforeDraw: function (chart, a, b) {
+                        var width = chart.width,
+                            height = chart.height,
+                            ctx = chart.ctx;
+
+                        ctx.restore();
+                        var fontSize = (height / 200).toFixed(1);
+                        ctx.font = fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+
+                        var text = " "
+                        textX = 10 + Math.round((width - ctx.measureText(text).width) / 2);
+                        textY = (height / 2) - 40;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+        });
+
+        function clickHandler(click) {
+            const points = outcomeChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(outcomeDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        outcomeChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END PIE CHART -->
+
+    <!-- SUMMARY BAR CHART -->
+    <script>
+
+        // The Severity bar chart
+        const severityChartCtx = document.getElementById('severityChart');
+
+        // Options define for display value on top of bars
+
+        const severityDetailsReports = [
+            { title: 'Passing Scenarios', link: "6053af5429c842969907663529c59d2366c8f0fc4325085b1c1d97ebcc5da73c.html" },
+            { title: 'Pending Scenarios', link: "d807d9ae8e9e70288c75cb74e9314e45897cce2eca8398c581abe0adf1d0fe84.html" },
+            { title: 'Ignored Scenarios', link: "ce5dc076c525118a026103068c481adec992f8da65309b5219d3af90566be515.html" },
+            { title: 'Skipped Scenarios', link: "159772cf199660d4e98acdbe51ec937ce655c824c320c064ae09b7200216edf1.html" },
+            { title: 'Aborted Scenarios',  link: "9c68711f8ed90a2f4fa96e0cd9fb5c814d0c4bc304179feeefd1e6cb26a43779.html"},
+            { title: 'Failed Scenarios', link: "ac22d0faa24fdd153dac6aee95c73df5e5cd756133875133d9aa19fce1c3ff01.html"  },
+            { title: 'Broken Scenarios', link: "32f1d08a29fa6b36d3567ab416443f28deab92e161c9d184db5bf473d07a7c12.html"    },
+            { title: 'Compromised Scenarios',  link: "34f8548b6bf0621b414da31c928ae3e11945dd40f234cfe29ac58717d3d3c1d0.html" },
+        ]
+        const severityData = {
+            labels: ['Passing', 'Pending', 'Ignored', 'Skipped', 'Aborted', 'Failed', 'Broken', 'Compromised'],
+            datasets: [
+                {
+                    label: 'Automated',
+                    data: [0,0,0,0,0,0,1,0],
+                    backgroundColor: ['rgba(153,204,51,0.5)','rgba(165, 199, 238, 0.5)','rgba(168, 168, 168, 0.5)','rgba(238, 224, 152, 0.75)','rgba(255, 153, 102, 0.5)','rgba(255, 22, 49, 0.5)','rgba(255, 97, 8, 0.5)','rgba(255, 104, 255, 0.5)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)'],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Manual',
+                    data: [0,0,0,0,0,0,0,0],
+                    backgroundColor: ['rgba(153,204,51,0.25)','rgba(165, 199, 238, 0.25)','rgba(168, 168, 168, 0.25)','rgba(238, 224, 152, 0.375)','rgba(255, 153, 102, 0.25)','rgba(255, 22, 49, 0.25)','rgba(255, 97, 8, 0.25)','rgba(255, 104, 255, 0.25)'],
+                    borderColor: ['rgba(153,204,51,1)','rgba(165, 199, 238, 1)','rgba(168, 168, 168, 1)','rgba(238, 224, 152, 1)','rgba(255, 153, 102, 1)','rgba(255, 22, 49, 1)','rgba(255, 97, 8, 1)','rgba(255, 104, 255, 1)'],
+                    borderWidth: 1
+                },
+
+            ]
+        }
+        const severityOptions = {
+            responsive: true,
+            skipNull: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value === 0) {
+                            return '';
+                        } else {
+                            return value;
+                        }
+                    },
+                }
+            }
+        }
+        const severityChart = new Chart(severityChartCtx, {
+            type: 'bar',
+            data: severityData,
+            options: severityOptions
+        });
+
+        function clickHandler(click) {
+            const points = severityChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(severityDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+        severityChartCtx.onclick = clickHandler;
+    </script>
+    <!-- END SUMMARY CHART -->
+
+    <!-- DURATION CHART -->
+    <script>
+
+        // Options define for display value on top of bars
+        const durationDetailsReports = [
+                {title: "Under 1 second", link: "06d1e90fb1a0b362e69f39370756790a218b829e416000fe2b0a609f2268c86e.html"},
+                {title: "1 to 10 seconds", link: "e6d52a8d18f309ceac501bc72bc56d1d00dd19bcdad3f6fc431129c537c1ce05.html"},
+                {title: "10 to 30 seconds", link: "617e3af22caef124df6ab2f1a5d5fe30544f2240bd28c909cdccb532d6c746ce.html"},
+                {title: "30 to 60 seconds", link: "2facfd655723eda06dbdeeb1399c1911305ec629281b7b1db3f1a73fa6f722aa.html"},
+                {title: "1 to 2 minutes", link: "1a1df52ac6fa7ae7b7e6562d4080736f727502b4b1dc3f5c21766227778b0ef8.html"},
+                {title: "2 to 5 minutes", link: "deb1ffe7728d854eb95f2c06e21045c16773ddf33002905f2ec78b550390f969.html"},
+                {title: "5 to 10 minutes", link: "5426fa4c8a446ab6b796db4896a7002adb370cba48c8d8e315e8d32414a2b11b.html"},
+                {title: "10 minutes or over", link: "78fe0e6fcd712c801ed5c235fdc3b6973c336fe1873070676fce0a7b9299c871.html"},
+        ]
+        // The Severity bar chart
+        const durationChartCtx = document.getElementById('durationChart');
+
+        // Options define for display value on top of bars
+
+        const durationData = {
+            labels: ['Under 1 second','1 to 10 seconds','10 to 30 seconds','30 to 60 seconds','1 to 2 minutes','2 to 5 minutes','5 to 10 minutes','10 minutes or over'],
+            datasets: [{
+                label: 'Number of tests per duration',
+                fill: false,
+                data: ['0','1','0','0','0','0','0','0'],
+                backgroundColor: 'rgba(83, 146, 255,0.5)',
+                borderColor: 'rgba(83, 146, 255, 1)',
+            }]
+        }
+        const durationOptions = {
+            responsive: true,
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold',
+                    formatter: (value, ctx) => {
+                        if (value > 0) {
+                            return value;
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+                tooltip: {
+                    enabled: true,
+                    usePointStyle: true,
+                    callbacks: {
+                        label: (data) => {
+                            return data.parsed.y + ' tests'
+                        }
+                    },
+                },
+            },
+        }
+
+        const durationChart = new Chart(durationChartCtx, {
+            type: 'bar',
+            data: durationData,
+            options: durationOptions
+        });
+
+        function durationClickHandler(click) {
+            const points = durationChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                window.open(durationDetailsReports[firstPoint.index].link, "_self")
+
+            }
+        }
+
+        durationChartCtx.onclick = durationClickHandler;
+    </script>
+    <!-- END DURATION CHART -->
+
+
+
+    <!-- COVERAGE BAR CHART -->
+    <script>
+
+        // The coverage bar chart
+        const coverageChartCtx = document.getElementById('coverageChart');
+
+        // Options define for display value on top of bars
+
+        const coverageReports = [
+            {
+                title: 'Resigtration with PAN Number',
+                result: 'ERROR',
+                link: "78d86a3dfb045a9fea4b06fd964d49e57631b94f2f8cb31e7c5d84a92bdab739.html"
+            },
+            {
+                title: 'Resigtration with PAN Number',
+                result: 'ERROR',
+                link: "a33102df209118f1903c8e3457c88c0c34757876412b2541c471a5973b2130c0.html"
+            },
+        ]
+        const coverageData = {
+            labels: [
+                'Resigtration with PAN Number',
+                'Resigtration with PAN Number',
+            ],
+            datasets: [
+                {
+                    label: ['Passing Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(153,204,51,0.5)' ]
+                },
+                {
+                    label: ['Pending Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(165, 199, 238, 0.5)' ]
+                },
+                {
+                    label: ['Ignored Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(168, 168, 168, 0.5)' ]
+                },
+                {
+                    label: ['Skipped Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(238, 224, 152, 0.75)' ]
+                },
+                {
+                    label: ['Aborted Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(255, 153, 102, 0.5)' ]
+                },
+                {
+                    label: ['Failed Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(255, 22, 49, 0.5)' ]
+                },
+                {
+                    label: ['Errors'],
+                    data: [1,1],
+                    backgroundColor: [ 'rgba(255, 97, 8, 0.5)' ]
+                },
+                {
+                    label: ['Compromised Tests'],
+                    data: [null,null],
+                    backgroundColor: [ 'rgba(255, 104, 255, 0.5)' ]
+                },
+            ]
+        }
+        const coverageOptions = {
+            responsive: true,
+            indexAxis: 'y',
+            // barPercentage: ,
+            barThickness: 'flex',
+            maxBarThickness: 30,
+            minBarLength: 2,
+            skipNull: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true,
+                }
+            },
+            plugins: {
+                // Change options for ALL labels of THIS CHART
+                datalabels: {
+                    color: '#444444',
+                    'font.weight': 'bold'
+                },
+                tooltip: {
+                    enabled: true,
+                    usePointStyle: true,
+                },
+            },
+        }
+
+        const coverageChart = new Chart(coverageChartCtx, {
+            type: 'bar',
+            data: coverageData,
+            options: coverageOptions
+        });
+
+        function coverageClickHandler(click) {
+            const points = coverageChart.getElementsAtEventForMode(click, 'nearest', {intersect: true}, true);
+            if (points.length) {
+                const firstPoint = points[0];
+                if (coverageReports[firstPoint.index].link) {
+                    window.open(coverageReports[firstPoint.index].link, "_self")
+                }
+            }
+        }
+
+        coverageChartCtx.onclick = coverageClickHandler;
+    </script>
+    <!-- END COVERAGE CHART -->
+
+</body>
+</html>
